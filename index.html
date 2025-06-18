@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Doğum Günü Sürprizi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+  body { font-family: Arial, sans-serif; background: #ffe6f0; text-align: center; padding: 60px 20px; overflow-x: hidden; }
+  h1 { color: #d6336c; font-family: 'Pacifico', cursive; font-size: 3rem; margin-bottom: 40px; }
+  #message { margin-top: 30px; font-size: 1.5rem; color: #6b1e44; min-height: 80px; opacity: 0; transition: opacity 1s ease; }
+  button { font-size: 1.6rem; padding: 18px 50px; margin: 20px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 10px rgba(214,51,108,0.3); }
+  #yesBtn { background-color: #ff4d94; color: white; }
+  #yesBtn:hover { background-color: #e60073; }
+  #noBtn { background-color: #aaa; color: white; position: relative; }
+  .heart { position: fixed; width: 30px; height: 30px; background: #ff4d94; transform: rotate(-45deg); left: 50%; pointer-events: none; animation: flyUp 3s forwards ease-out; z-index: 9999; }
+  .heart::before, .heart::after { content: ""; position: absolute; width: 30px; height: 30px; background: #ff4d94; border-radius: 50%; }
+  .heart::before { top: -15px; left: 0; }
+  .heart::after { left: 15px; top: 0; }
+  @keyframes flyUp { 0% { opacity: 1; transform: translateX(0) translateY(0) rotate(-45deg) scale(1); } 100% { opacity: 0; transform: translateX(calc(var(--randX, 0) * 1px)) translateY(-150px) rotate(-45deg) scale(0.5); } }
+</style>
+</head>
+<body>
+<h1>Beni Seviyor musun?</h1>
+<button id="yesBtn">Evet</button>
+<button id="noBtn">Hayır</button>
+<div id="message"></div>
+<script>
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const message = document.getElementById('message');
+  let yesSize = 1.6; yesBtn.style.fontSize = yesSize + 'rem';
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.setProperty('--randX', (Math.random() * 100 - 50).toFixed(2));
+    heart.style.left = (window.innerWidth / 2 + (Math.random() * 60 - 30)) + 'px';
+    heart.style.bottom = '50px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+  }
+  yesBtn.addEventListener('click', () => {
+    message.style.opacity = 0;
+    setTimeout(() => {
+      message.textContent = "o o o o seni çok seviyorum iyki hayatımdasın iyki doğdun tatlı prensesim";
+      message.style.opacity = 1;
+    }, 400);
+    noBtn.style.display = 'none';
+    let count = 0;
+    const heartInterval = setInterval(() => {
+      createHeart();
+      if (++count > 15) clearInterval(heartInterval);
+    }, 200);
+  });
+  noBtn.addEventListener('click', () => {
+    message.style.opacity = 0;
+    setTimeout(() => {
+      message.textContent = "Emin misin? ❤️ Bir daha dene :)";
+      message.style.opacity = 1;
+    }, 300);
+    yesSize += 0.3;
+    yesBtn.style.fontSize = yesSize + 'rem';
+    const maxMove = 100;
+    const randomX = Math.floor(Math.random() * maxMove) - maxMove / 2;
+    const randomY = Math.floor(Math.random() * maxMove) - maxMove / 2;
+    noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+  });
+</script>
+</body>
+</html>
